@@ -445,3 +445,26 @@
   -->
 
 </div>
+
+<script>
+// 静音所有 <video> 标签
+document.querySelectorAll('video').forEach(function(v){
+  v.muted = true;
+});
+
+// 尝试静音所有 B站/YouTube iframe（部分浏览器可能不支持跨域iframe静音）
+document.querySelectorAll('iframe').forEach(function(iframe){
+  // B站
+  if(iframe.src.includes('bilibili.com')){
+    if(!iframe.src.includes('muted=1')){
+      iframe.src += (iframe.src.includes('?') ? '&' : '?') + 'muted=1';
+    }
+  }
+  // YouTube
+  if(iframe.src.includes('youtube.com')){
+    if(!iframe.src.includes('mute=1')){
+      iframe.src += (iframe.src.includes('?') ? '&' : '?') + 'mute=1';
+    }
+  }
+});
+</script>
