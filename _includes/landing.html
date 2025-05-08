@@ -403,6 +403,49 @@
           </div>
         </div>
       </div>
+      <!-- 妙守丹青 项目卡片（多图轮播） -->
+      <div class="card mb-4 shadow-sm">
+        <div class="row no-gutters">
+          <!-- 左侧图片轮播区域 -->
+          <div class="col-md-5 bg-light p-3">
+            <!-- Bootstrap轮播组件，id需唯一 -->
+            <div id="miaoshouCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <!-- 第一张：主界面美术图 -->
+                <div class="carousel-item active">
+                  <img src="{{ site.baseurl }}/assets/images/miaoshou-main.png" class="d-block w-100" alt="妙守丹青主界面">
+                </div>
+                <!-- 第二张：Unity开发场景截图 -->
+                <div class="carousel-item">
+                  <img src="{{ site.baseurl }}/assets/images/miaoshou-unity1.png" class="d-block w-100" alt="妙守丹青Unity开发场景">
+                </div>
+                <!-- 第三张：对话选择界面截图 -->
+                <div class="carousel-item">
+                  <img src="{{ site.baseurl }}/assets/images/miaoshou-unity2.png" class="d-block w-100" alt="妙守丹青对话界面">
+                </div>
+              </div>
+              <!-- 轮播左右切换按钮 -->
+              <a class="carousel-control-prev" href="#miaoshouCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </a>
+              <a class="carousel-control-next" href="#miaoshouCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </a>
+            </div>
+          </div>
+          <!-- 右侧项目文字介绍区域 -->
+          <div class="col-md-7">
+            <div class="card-body">
+              <h5 class="card-title">妙守丹青</h5>
+              <h6 class="card-subtitle mb-2 text-muted">2023 年 3-5 月</h6>
+              <p class="card-text mt-3">
+                意在预防未成年犯罪的普法向交互视觉小说，Unity制作。和中南财经政法大学公安类专业的同学合作完成，获得互联网+大学生创新创业大赛省银奖。<br>
+                负责进行素材资源的整合，独立完成了程序编写并发布于Web端。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- 如有更多项目，可按上述结构继续添加 -->
       <!-- 另一个项目卡片示例 -->
       <!--
