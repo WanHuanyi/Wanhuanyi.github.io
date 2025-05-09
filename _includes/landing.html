@@ -130,10 +130,27 @@
       <!-- Pumpkin Party 项目卡片（合并，英文，保留图片区域） -->
       <div class="card mb-4 shadow-sm">
         <div class="row no-gutters">
-          <!-- 项目媒体（图片/视频）占位区域 -->
-          <div class="col-md-5 d-flex align-items-center justify-content-center bg-light p-3">
-            <img src="https://via.placeholder.com/400x300?text=Pumpkin+Party+Screenshot" class="img-fluid" alt="Pumpkin Party Screenshot">
-            <!-- 可替换为实际图片或视频 -->
+          <!-- 项目媒体（图片/视频）轮播区域 -->
+          <div class="col-md-5 bg-light p-3">
+            <div id="pumpkinPartyCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="{{ site.baseurl }}/assets/images/pumpkin-party-1.jpg" class="d-block w-100" alt="Pumpkin Party Screenshot 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="{{ site.baseurl }}/assets/images/pumpkin-party-2.jpg" class="d-block w-100" alt="Pumpkin Party Screenshot 2">
+                </div>
+                <div class="carousel-item">
+                  <img src="{{ site.baseurl }}/assets/images/pumpkin-party-3.jpg" class="d-block w-100" alt="Pumpkin Party Screenshot 3">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#pumpkinPartyCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </a>
+              <a class="carousel-control-next" href="#pumpkinPartyCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </a>
+            </div>
           </div>
           <!-- 项目文字介绍区域 -->
           <div class="col-md-7">
