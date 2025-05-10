@@ -568,8 +568,6 @@ document.querySelectorAll('iframe').forEach(function(iframe){
 
 // 平滑滚动到锚点
 // 监听所有导航链接点击事件，阻止默认跳转，使用scrollIntoView平滑滚动
-// 并在滚动时高亮当前导航项
-
 document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
   link.addEventListener('click', function(e){
     var targetId = this.getAttribute('href').replace('#','');
@@ -577,43 +575,117 @@ document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
     if(target){
       e.preventDefault();
       target.scrollIntoView({behavior:'smooth', block:'start'});
+      
+      // 点击后强制更新高亮状态
+      setTimeout(function() {
+        highlightNavFixed();
+      }, 100);
     }
   });
 });
 
-// 封装高亮逻辑为函数，便于多处调用
-function highlightNav() {
+// 防抖函数：降低滚动事件触发频率，避免性能问题
+function debounce(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      func.apply(context, args);
+    }, wait);
+  };
+}
+
+// 完全重写的导航高亮逻辑，更精确判断当前所在区域
+function highlightNavFixed() {
+  // 获取所有section元素
   var sections = ['bio','education','research','project','internship','skills','activities'];
-  var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
-  var offset = 150; // 导航条高度+留白
-  var current = '';
-  // 判断是否已接近页面底部
-  var scrollBottom = (window.innerHeight + scrollPos) >= (document.body.scrollHeight - 10); // 10px容差
-  if (scrollBottom) {
-    current = sections[sections.length - 1]; // 高亮最后一个（活动）
-  } else {
-    for(var i=0;i<sections.length;i++){
-      var sec = document.getElementById(sections[i]);
-      if(sec && sec.offsetTop - offset <= scrollPos){
-        current = sections[i];
+  var sectionElements = sections.map(id => document.getElementById(id));
+  
+  // 获取当前滚动位置和视窗大小
+  var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+  var windowHeight = window.innerHeight;
+  var documentHeight = Math.max(
+    document.body.scrollHeight, document.documentElement.scrollHeight,
+    document.body.offsetHeight, document.documentElement.offsetHeight
+  );
+  
+  // 判断是否接近底部 (200px容差)
+  if (scrollPos + windowHeight >= documentHeight - 200) {
+    setActiveNav(sections[sections.length - 1]);
+    return;
+  }
+  
+  // 判断是否在顶部 (100px容差)
+  if (scrollPos < 100) {
+    setActiveNav(sections[0]);
+    return;
+  }
+  
+  // 确定当前哪个section最接近视窗中心
+  var activeSection = null;
+  var minDistance = Infinity;
+  
+  // 视窗中心点
+  var viewportCenter = scrollPos + (windowHeight / 2);
+  
+  // 计算每个section到视窗中心的距离
+  for (var i = 0; i < sectionElements.length; i++) {
+    var sec = sectionElements[i];
+    if (!sec) continue;
+    
+    var secTop = sec.getBoundingClientRect().top + scrollPos;
+    var secBottom = secTop + sec.offsetHeight;
+    
+    // section在视窗内，或者视窗跨过section
+    if ((secTop <= scrollPos + windowHeight) && (secBottom >= scrollPos)) {
+      var secCenter = secTop + (sec.offsetHeight / 2);
+      var distance = Math.abs(secCenter - viewportCenter);
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        activeSection = sections[i];
       }
     }
-    // 如果current为空，说明页面在最顶部，默认高亮第一个（个人简介）
-    if(!current) current = sections[0];
   }
-  document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
-    if(link.getAttribute('href')==='#'+current){
+  
+  // 设置激活项（如果找不到，使用第一个）
+  setActiveNav(activeSection || sections[0]);
+}
+
+// 设置导航激活状态的辅助函数
+function setActiveNav(activeId) {
+  document.querySelectorAll('.section-nav .nav-link').forEach(function(link) {
+    var href = link.getAttribute('href').replace('#','');
+    if (href === activeId) {
       link.classList.add('active');
-    }else{
+    } else {
       link.classList.remove('active');
     }
   });
 }
 
-// 页面滚动时高亮
-window.addEventListener('scroll', highlightNav);
-// 页面初始加载时主动高亮一次，修复初始高亮错误
-window.addEventListener('DOMContentLoaded', highlightNav);
+// 初始化和事件绑定
+function initNavHighlight() {
+  // 强制初始化高亮状态
+  highlightNavFixed();
+  
+  // 滚动时防抖处理 (50ms)
+  window.addEventListener('scroll', debounce(highlightNavFixed, 50));
+  
+  // 调整浏览器窗口大小时重新计算
+  window.addEventListener('resize', debounce(highlightNavFixed, 100));
+  
+  // 强制在多个时间点再次检查，确保页面完全加载后状态正确
+  setTimeout(highlightNavFixed, 100);
+  setTimeout(highlightNavFixed, 500);
+  setTimeout(highlightNavFixed, 1000);
+}
+
+// 页面加载完成时初始化
+document.addEventListener('DOMContentLoaded', initNavHighlight);
+// 页面完全加载（包括图片）后再次检查
+window.addEventListener('load', highlightNavFixed);
 </script>
 
 <!-- 导航条美化样式 -->
