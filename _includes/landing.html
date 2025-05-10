@@ -492,6 +492,40 @@
 
 </div>
 
+<!-- 页面底部插入自定义样式，优化卡片宽度、排版和可读性 -->
+<style>
+/* 1. 主体容器最大宽度调大，适配大屏显示 */
+.container {
+  max-width: 1600px !important; /* 最大宽度由1400px提升到1600px */
+}
+
+/* 2. 卡片宽度和内边距优化，防止内容拥挤 */
+.card {
+  min-width: 700px; /* 卡片最小宽度，保证内容不挤 */
+  padding: 1.5rem 2rem; /* 上下左右内边距加大，内容更舒展 */
+  margin-bottom: 2.5rem; /* 卡片间距加大，视觉更清爽 */
+}
+
+/* 3. 卡片正文字体和行高优化，提升可读性 */
+.card-body {
+  font-size: 1.12rem; /* 字体略大 */
+  line-height: 1.85;  /* 行高更舒展 */
+}
+
+/* 4. 分区标题与内容间距优化 */
+h3.border-bottom {
+  margin-bottom: 2.2rem;
+}
+
+/* 5. 响应式优化：小屏幕下自动适应，防止溢出 */
+@media (max-width: 991px) {
+  .card {
+    min-width: unset;
+    padding: 1rem 0.5rem;
+  }
+}
+</style>
+
 <script>
 // 静音所有 <video> 标签
 document.querySelectorAll('video').forEach(function(v){
