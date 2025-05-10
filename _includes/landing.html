@@ -576,8 +576,8 @@ document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
   });
 });
 
-// 高亮当前所在模块的导航项
-window.addEventListener('scroll', function(){
+// 封装高亮逻辑为函数，便于多处调用
+function highlightNav() {
   var sections = ['bio','education','research','project','internship','skills','activities'];
   var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
   var offset = 120; // 导航条高度+留白
@@ -595,7 +595,12 @@ window.addEventListener('scroll', function(){
       link.classList.remove('active');
     }
   });
-});
+}
+
+// 页面滚动时高亮
+window.addEventListener('scroll', highlightNav);
+// 页面初始加载时主动高亮一次，修复初始高亮错误
+window.addEventListener('DOMContentLoaded', highlightNav);
 </script>
 
 <!-- 导航条美化样式 -->
