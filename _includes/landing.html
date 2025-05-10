@@ -585,16 +585,22 @@ document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
 function highlightNav() {
   var sections = ['bio','education','research','project','internship','skills','activities'];
   var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
-  var offset = 120; // 导航条高度+留白
+  var offset = 150; // 导航条高度+留白
   var current = '';
-  for(var i=0;i<sections.length;i++){
-    var sec = document.getElementById(sections[i]);
-    if(sec && sec.offsetTop - offset <= scrollPos){
-      current = sections[i];
+  // 判断是否已接近页面底部
+  var scrollBottom = (window.innerHeight + scrollPos) >= (document.body.scrollHeight - 10); // 10px容差
+  if (scrollBottom) {
+    current = sections[sections.length - 1]; // 高亮最后一个（活动）
+  } else {
+    for(var i=0;i<sections.length;i++){
+      var sec = document.getElementById(sections[i]);
+      if(sec && sec.offsetTop - offset <= scrollPos){
+        current = sections[i];
+      }
     }
+    // 如果current为空，说明页面在最顶部，默认高亮第一个（个人简介）
+    if(!current) current = sections[0];
   }
-  // 如果current为空，说明页面在最顶部，默认高亮第一个（个人简介）
-  if(!current) current = sections[0];
   document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
     if(link.getAttribute('href')==='#'+current){
       link.classList.add('active');
