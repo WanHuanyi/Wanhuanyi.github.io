@@ -537,6 +537,11 @@ h3.border-bottom {
     padding: 1rem 0.5rem;
   }
 }
+
+/* 修复锚点跳转标题被导航条遮挡问题，留足冗余 */
+h3[id] {
+  scroll-margin-top: 150px; /* 150px为导航条高度+冗余，保证标题完整显示 */
+}
 </style>
 
 <script>
@@ -588,6 +593,8 @@ function highlightNav() {
       current = sections[i];
     }
   }
+  // 如果current为空，说明页面在最顶部，默认高亮第一个（个人简介）
+  if(!current) current = sections[0];
   document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
     if(link.getAttribute('href')==='#'+current){
       link.classList.add('active');
