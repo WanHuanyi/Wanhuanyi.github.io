@@ -556,19 +556,17 @@ h3[id] {
   background: rgba(0,123,255,0.1);
 }
 
-/* 暗色模式适配，自动切换为深色风格 */
-@media (prefers-color-scheme: dark) {
-  .section-nav {
-    border-bottom: 1px solid #333;
-    background: #222;
-  }
-  .section-nav .nav-link {
-    color: #eee;
-  }
-  .section-nav .nav-link:hover {
-    color: #fff;
-    background: rgba(0,123,255,0.18);
-  }
+/* 适配 data-theme 属性的暗色模式，保证导航栏风格与整体页面一致 */
+html[data-theme="dark"] .section-nav {
+  border-bottom: 1px solid #333 !important; /* 深色分割线 */
+  background: #222 !important;              /* 深色背景 */
+}
+html[data-theme="dark"] .section-nav .nav-link {
+  color: #eee !important;                   /* 浅色文字 */
+}
+html[data-theme="dark"] .section-nav .nav-link:hover {
+  color: #fff !important;
+  background: rgba(0,123,255,0.18) !important; /* 悬停时浅蓝背景 */
 }
 </style>
 
