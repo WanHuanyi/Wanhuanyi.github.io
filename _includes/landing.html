@@ -1,3 +1,16 @@
+<!-- 页面顶部锚点导航条，吸顶显示，简洁风格 -->
+<nav class="section-nav sticky-top bg-white shadow-sm py-2 mb-4" style="z-index:1000;">
+  <ul class="nav justify-content-center">
+    <li class="nav-item"><a class="nav-link" href="#bio">个人简介</a></li>
+    <li class="nav-item"><a class="nav-link" href="#education">教育背景</a></li>
+    <li class="nav-item"><a class="nav-link" href="#research">科研经历</a></li>
+    <li class="nav-item"><a class="nav-link" href="#project">项目经历</a></li>
+    <li class="nav-item"><a class="nav-link" href="#internship">实习经历</a></li>
+    <li class="nav-item"><a class="nav-link" href="#skills">技能</a></li>
+    <li class="nav-item"><a class="nav-link" href="#activities">活动</a></li>
+  </ul>
+</nav>
+
 <!-- 页面主体内容容器，宽度调大 -->
 <div class="container my-5" style="max-width:1400px;">
 
@@ -22,7 +35,7 @@
   <!-- 🧑🏻 Bio 区域，增加留白 -->
   <div class="row justify-content-center mb-5" style="margin-bottom:3rem;">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">🧑🏻 Bio</h3>
+      <h3 id="bio" class="border-bottom pb-2 mb-3">🧑🏻 Bio</h3>
       <div class="card shadow-sm mb-5">
         <div class="card-body">
           <p class="card-text" style="font-size:1.08rem;">
@@ -38,7 +51,7 @@
   <!-- 🎓 Education -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">🎓 Education</h3>
+      <h3 id="education" class="border-bottom pb-2 mb-3">🎓 Education</h3>
       <div class="card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Communication University of China</h5>
@@ -57,7 +70,7 @@
   <!-- 🔬 Research & Industry Analysis Experience -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">🔬 Research & Industry Analysis Experience</h3>
+      <h3 id="research" class="border-bottom pb-2 mb-3">🔬 Research & Industry Analysis Experience</h3>
 
       <!-- 科研项目卡片 - Tsinghua University, Pi Lab -->
       <div class="card mb-4 shadow-sm">
@@ -126,7 +139,7 @@
   <!-- 💡 Project 区域 -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">💡 Project</h3>
+      <h3 id="project" class="border-bottom pb-2 mb-3">💡 Project</h3>
       <!-- Pumpkin Party 项目卡片（合并，英文，轮播图） -->
       <div class="card mb-4 shadow-sm">
         <div class="row no-gutters">
@@ -415,7 +428,7 @@
   <!-- 💼 Internship Experience -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">💼 Internship Experience</h3>
+      <h3 id="internship" class="border-bottom pb-2 mb-3">💼 Internship Experience</h3>
       <!-- 腾讯科技（深圳）有限公司 实习卡片 -->
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
@@ -454,13 +467,13 @@
         </div>
       </div>
       <!-- 更多实习经历... -->
-      </div>
     </div>
+  </div>
 
   <!-- 💻 Skills -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">💻 Skills</h3>
+      <h3 id="skills" class="border-bottom pb-2 mb-3">💻 Skills</h3>
       <div class="card shadow-sm">
         <div class="card-body">
           <p class="card-text">Prototyping & Development: Unreal Engine, Unity, Cocos Creator</p>
@@ -474,7 +487,7 @@
   <!-- 🎯 Activities -->
   <div class="row justify-content-center mb-5">
     <div class="col-lg-10">
-      <h3 class="border-bottom pb-2 mb-3">🎯 Activities</h3>
+      <h3 id="activities" class="border-bottom pb-2 mb-3">🎯 Activities</h3>
       <div class="card mb-4 shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Secretary of Class Youth League Branch, Communication University of China (2021–2025)</h5>
@@ -547,4 +560,68 @@ document.querySelectorAll('iframe').forEach(function(iframe){
     }
   }
 });
+
+// 平滑滚动到锚点
+// 监听所有导航链接点击事件，阻止默认跳转，使用scrollIntoView平滑滚动
+// 并在滚动时高亮当前导航项
+
+document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
+  link.addEventListener('click', function(e){
+    var targetId = this.getAttribute('href').replace('#','');
+    var target = document.getElementById(targetId);
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
+});
+
+// 高亮当前所在模块的导航项
+window.addEventListener('scroll', function(){
+  var sections = ['bio','education','research','project','internship','skills','activities'];
+  var scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+  var offset = 120; // 导航条高度+留白
+  var current = '';
+  for(var i=0;i<sections.length;i++){
+    var sec = document.getElementById(sections[i]);
+    if(sec && sec.offsetTop - offset <= scrollPos){
+      current = sections[i];
+    }
+  }
+  document.querySelectorAll('.section-nav .nav-link').forEach(function(link){
+    if(link.getAttribute('href')==='#'+current){
+      link.classList.add('active');
+    }else{
+      link.classList.remove('active');
+    }
+  });
+});
 </script>
+
+<!-- 导航条美化样式 -->
+<style>
+.section-nav {
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+.section-nav .nav-link {
+  color: #333;
+  font-weight: 500;
+  font-size: 1.08rem;
+  margin: 0 0.7rem;
+  transition: color 0.2s, background 0.2s;
+  border-radius: 4px;
+}
+.section-nav .nav-link.active,
+.section-nav .nav-link:hover {
+  color: #fff;
+  background: #007bff;
+}
+@media (max-width: 991px) {
+  .section-nav .nav-link {
+    font-size: 0.98rem;
+    margin: 0 0.3rem;
+    padding: 0.3rem 0.5rem;
+  }
+}
+</style>
